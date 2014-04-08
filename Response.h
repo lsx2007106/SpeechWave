@@ -10,7 +10,7 @@ private:
 	CRect Rect;
 	char YAxisLabel[5][8];
 public:
-	Response(void);
+	Response(void); //Add some comment
 	~Response(void);
 };
 
