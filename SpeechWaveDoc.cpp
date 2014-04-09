@@ -142,3 +142,14 @@ void CSpeechWaveDoc::Dump(CDumpContext& dc) const
 //{
 //	 //TODO: 在此添加命令处理程序代码
 //}
+
+
+//BOOL CSpeechWaveDoc::OnOpenDocument(LPCTSTR lpszPathName)
+//{
+//	if (!CDocument::OnOpenDocument(lpszPathName))
+//		return FALSE;
+//
+//	// TODO:  在此添加您专用的创建代码
+//
+//	return TRUE;
+//}

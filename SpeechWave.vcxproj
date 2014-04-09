@@ -107,9 +107,12 @@
   <ItemGroup>
     <ClInclude Include="CRecordWaveParam.h" />
     <ClInclude Include="CSpectrogramParam.h" />
+    <ClInclude Include="DrawCurve.h" />
     <ClInclude Include="Fft.h" />
+    <ClInclude Include="FreqResponse.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="PCMWave.h" />
+    <ClInclude Include="PhaseResponse.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Response.h" />
     <ClInclude Include="Spectrogram.h" />
@@ -126,9 +129,12 @@
     <ClCompile Include="CSpectrogramParam.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="DrawCurve.cpp" />
     <ClCompile Include="Fft.cpp" />
+    <ClCompile Include="FreqResponse.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="PCMWave.cpp" />
+    <ClCompile Include="PhaseResponse.cpp" />
     <ClCompile Include="PlotWave.cpp" />
     <ClCompile Include="Response.cpp" />
     <ClCompile Include="Spectrogram.cpp" />

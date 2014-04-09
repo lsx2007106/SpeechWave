@@ -33,6 +33,8 @@ ON_MESSAGE(MM_WIM_DATA, &CSpeechWaveView::EvRecordDone)
 ON_COMMAND(ID_WAVEFORM, &CSpeechWaveView::OnWaveform)
 ON_COMMAND(ID_SPECTROGRAM, &CSpeechWaveView::OnSpectrogram)
 ON_COMMAND(ID_Menu, &CSpeechWaveView::OnMenu)
+//ON_COMMAND(ID_FILE_OPEN, &CSpeechWaveView::OnFileOpen)
+ON_COMMAND(ID_FILE_OPEN, &CSpeechWaveView::OnFileOpen)
 END_MESSAGE_MAP()
 
 // CSpeechWaveView 构造/析构
@@ -201,7 +203,7 @@ void CSpeechWaveView::OnInputPlay()
 {
 	// TODO: 在此添加命令处理程序代码
 	//if(!m_pWaveIn) return;
-	if(!m_RecordIsReady) return;
+	//if(!m_RecordIsReady) return;
 	if(!(*m_pWave)) return;
 	
 	if(IsDeviceUsing) {
@@ -306,7 +308,7 @@ void CSpeechWaveView::OnDraw(CDC* pDC)
 			spectro.Display(pDC,inputrect);
 		}
 	}
-	if(m_pResponse)
+	/*if(m_pResponse)
 	{
 		CRect FreqRect;
 		CRect PhaseRect;
@@ -318,6 +320,30 @@ void CSpeechWaveView::OnDraw(CDC* pDC)
 		m_pResponse ->DrawResponseCurve(pDC,FreqRect);
 		m_pResponse ->DrawCoordinate(pDC,FreqRect);
 		m_pResponse ->DrawResponseCurve(pDC,FreqRect);
+	}*/
+	if(m_pResponse)
+	{
+		CClientDC dc(this);
+		CRect FreqRect;
+		CRect PhaseRect;
+		this ->GetDlgItem(IDC_STATIC_PHASE) ->GetWindowRect(PhaseRect);
+		this ->GetDlgItem(IDC_STATIC_MAGNITUDE) ->GetWindowRect(FreqRect);
+		ScreenToClient(FreqRect);
+		ScreenToClient(PhaseRect);
+		//m_pFreqResponse ->DrawCoordinate(pDC,FreqRect);
+		m_pFreqResponse ->DrawCoordinate(&dc,FreqRect);
+		DrawCurve *pDrawCurve = new DrawCurve(FreqRect,m_pFreqResponse ->GetFreqz(),m_pFreqResponse ->GetSize());
+		//pDrawCurve ->Draw(pDC,FreqRect);
+		pDrawCurve ->Draw(&dc,FreqRect);
+		pDrawCurve ->Output();
+		//m_pPhaseResponse ->DrawCoordinate(pDC,PhaseRect);
+		m_pPhaseResponse ->DrawCoordinate(&dc,PhaseRect);
+		DrawCurve *pDrawCurve1 = new DrawCurve(PhaseRect,m_pPhaseResponse ->GetPhase(),m_pPhaseResponse ->GetSize());
+		//pDrawCurve1 ->Draw(pDC,PhaseRect);
+		pDrawCurve1 ->Draw(&dc,PhaseRect);
+		pDrawCurve1 ->Output();
+		delete pDrawCurve;
+		delete pDrawCurve1;
 	}
 }
 
@@ -363,17 +389,52 @@ void CSpeechWaveView::OnMenu()
 	CRect PhaseRect;
 	this ->GetDlgItem(IDC_STATIC_MAGNITUDE) ->GetWindowRect(FreqRect);
 	ScreenToClient(FreqRect);
-	m_pResponse = new Response(buffer,FreqRect.right - FreqRect.left - 75); //Xaxis width 75px
+	//m_pFreqResponse = new Response(buffer,FreqRect.right - FreqRect.left - 75); //Xaxis width 75px
+	m_pResponse = new Response(buffer,FreqRect.right - FreqRect.left - 75);
+	m_pFreqResponse = new FreqResponse(*m_pResponse);
+	m_pFreqResponse ->Output();
 	CClientDC dc(this);
 	this ->GetDlgItem(IDC_STATIC_MAGNITUDE) ->GetWindowRect(FreqRect);
 	this ->GetDlgItem(IDC_STATIC_PHASE) ->GetWindowRect(PhaseRect);
 	ScreenToClient(FreqRect);
 	ScreenToClient(PhaseRect);
-	m_pResponse ->FrequencyResponse();
-	m_pResponse ->PhaseResponse();
+	m_pPhaseResponse = new PhaseResponse(*m_pResponse);
+	m_pPhaseResponse ->Output();
 	this ->InvalidateRect(FreqRect,true);
 	this ->InvalidateRect(PhaseRect,true);
 	UpdateWindow();
 	//UpdateWindow();
 	delete buffer;
+}
+
+
+//void CSpeechWaveView::OnFileOpen()
+//{
+//	// TODO: 在此添加命令处理程序代码
+//}
+
+
+void CSpeechWaveView::OnFileOpen()
+{
+	// TODO: 在此添加命令处理程序代码
+	wchar_t szFilters[]= L"Wave Files |Wave Files (*.wav)|*.wav|All Files (*.*)|*.*||";
+	// Create an Open dialog; the default file name extension is ".my".
+	CFileDialog fileDlg (TRUE, L"wav", L"*.wav",OFN_FILEMUSTEXIST| OFN_HIDEREADONLY, szFilters, this);
+	// Display the file dialog. When user clicks OK, fileDlg.DoModal()
+	// returns IDOK.
+	CString m_strPathName;	
+	char filename[256] = {"\0"};
+	CRect inputRect;
+	if(fileDlg.DoModal ()==IDOK )
+	{
+		m_strPathName = fileDlg.GetPathName();
+		wcstombs(filename,m_strPathName.GetBuffer(),m_strPathName.GetLength());
+		m_pWave = new CWave;
+		m_pWave ->Open(filename);
+		this ->GetDlgItem(IDC_STATIC_INPUT) ->GetWindowRect(inputRect);
+		ScreenToClient(inputRect);
+		this ->InvalidateRect(inputRect,true);
+		UpdateWindow();
+	}
+
 }

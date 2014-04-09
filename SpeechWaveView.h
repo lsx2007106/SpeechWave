@@ -11,6 +11,9 @@
 #include "CSpectrogramParam.h"
 #include "Spectrogram.h"
 #include "Response.h"
+#include "FreqResponse.h"
+#include "DrawCurve.h"
+#include "PhaseResponse.h"
 
 class CSpeechWaveView : public CFormView
 {
@@ -69,7 +72,12 @@ public:
 	afx_msg void OnSpectrogram();
 	bool m_RecordIsReady;
 	afx_msg void OnMenu();
+	FreqResponse* m_pFreqResponse;
 	Response* m_pResponse;
+//	DrawCurve* m_DrawCurve;
+	PhaseResponse* m_pPhaseResponse;
+//	afx_msg void OnFileOpen();
+	afx_msg void OnFileOpen();
 };
 
 #ifndef _DEBUG  // SpeechWaveView.cpp 中的调试版本

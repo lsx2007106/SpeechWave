@@ -76,6 +76,15 @@
     <ClInclude Include="Response.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="FreqResponse.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawCurve.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PhaseResponse.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SpeechWave.cpp">
@@ -112,6 +121,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Response.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FreqResponse.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCurve.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PhaseResponse.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

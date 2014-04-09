@@ -47,4 +47,5 @@ protected:
 #endif // SHARED_HANDLERS
 public:
 	afx_msg void OnMenu();
+//	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 };
